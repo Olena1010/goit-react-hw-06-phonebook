@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types';
 import { List, Item, DeleteButton } from './ContactList.style';
 import { BsFillPersonFill } from 'react-icons/bs';
+import { useDispatch } from 'react-redux';
+import { deleteContact } from 'redux/contactsSlice';
 
-export const ContactListItem = ({ contacts, onDelete }) => {
+export const ContactListItem = ({ contacts }) => {
+  const dispatch = useDispatch();
   return (
     <List>
       {contacts.map(contact => {
@@ -13,7 +16,10 @@ export const ContactListItem = ({ contacts, onDelete }) => {
               <span>{contact.name}:</span>
               <span>{contact.number}</span>
             </div>
-            <DeleteButton type="button" onClick={() => onDelete(contact.id)}>
+            <DeleteButton
+              type="button"
+              onClick={() => dispatch(deleteContact(contact.id))}
+            >
               Delete
             </DeleteButton>
           </Item>

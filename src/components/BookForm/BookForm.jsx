@@ -1,9 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { Form, FormField, Field, ErrorMessage, SubmitButton } from "./BookForm.styled"
-import { nanoid } from 'nanoid';
+import { useDispatch } from 'react-redux';
+import { addContact } from 'redux/contactsSlice';
 
 
 const BookSchema = Yup.object().shape({
@@ -21,7 +21,8 @@ const BookSchema = Yup.object().shape({
     .required('Required'),
 });
 
-export const BookForm = ({ onAddContact }) => {
+export const BookForm = ({ closeModal }) => {
+  const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{
@@ -30,8 +31,9 @@ export const BookForm = ({ onAddContact }) => {
       }}
       validationSchema={BookSchema}
       onSubmit={(values, actions) => {
-        onAddContact({ ...values, id: nanoid() });
+        dispatch(addContact(values));
         actions.resetForm();
+        closeModal();
       }}
     >
       <Form>
@@ -55,6 +57,3 @@ export const BookForm = ({ onAddContact }) => {
   );
 };
 
-BookForm.protoType = {
-  onAddContact: PropTypes.func.isRequired,
-};
