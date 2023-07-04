@@ -7,6 +7,7 @@ import { ContactList } from './ContactList/ContactList';
 import Modal from './Modal/Modal';
 import { NewContactBtn } from './NewContButton/NewContButton';
 import { CloseModalBtn } from './CloseModalButton/CloseModalButton';
+import { Filter } from './Filter/Filter';
 
 
 export const App = () => {
@@ -16,47 +17,20 @@ export const App = () => {
     setShowModal(!showModal);
   };
 
-  //   return (
-  //     <Container>
-  //       <GlobalStyle />
-  //       <Wrapper>
-  //         {showModal && (
-  //           <Modal onClose={toggleModal}>
-  //             <CloseModalButton type="button" onClick={toggleModal}>
-  //               X
-  //             </CloseModalButton>
-  //             <BookForm onAddContact={addContact} />
-  //           </Modal>
-  //         )}
-  //         <h1>Phonebook</h1>
-  //         <ContactList>
-  //           <NewContButton type="button" onClick={toggleModal}>
-  //             New contact
-  //           </NewContButton>
-  //           <h2>Contacts</h2>
-  //           <Filter value={filter} onChange={changeFilter} />
-  //           <ContactListItem
-  //             contacts={getFilteredContacts()}
-  //             onDelete={deleteContact}
-  //           />
-  //         </ContactList>
-  //       </Wrapper>
-  //     </Container>
-  //   );
-  // };
-
   return (
     <Container>
       <GlobalStyle />
-        <h1>Phonebook</h1>
-        <NewContactBtn showModal={toggleModal} />
-        <ContactList />
-        {showModal && (
-          <Modal onClose={toggleModal}>
-            <CloseModalBtn closeModal={toggleModal} />
-            <BookForm closeModal={toggleModal} />
-          </Modal>
-        )}
+      <h1>Phonebook</h1>
+      <NewContactBtn showModal={toggleModal} />
+      <h2>Contacts</h2>
+      <Filter />
+      <ContactList />
+      {showModal && (
+        <Modal onClose={toggleModal}>
+          <CloseModalBtn closeModal={toggleModal} />
+          <BookForm closeModal={toggleModal} />
+        </Modal>
+      )}
     </Container>
   );
 };
