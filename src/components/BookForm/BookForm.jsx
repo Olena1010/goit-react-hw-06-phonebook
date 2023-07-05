@@ -4,6 +4,8 @@ import { Formik } from 'formik';
 import { Form, FormField, Field, ErrorMessage, SubmitButton } from "./BookForm.styled"
 import { useDispatch } from 'react-redux';
 import { addContact } from 'redux/contactsSlice';
+import { useSelector } from 'react-redux';
+import { getContacts } from 'redux/selectors';
 
 
 const BookSchema = Yup.object().shape({
@@ -23,6 +25,7 @@ const BookSchema = Yup.object().shape({
 
 export const BookForm = ({ closeModal }) => {
   const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
   return (
     <Formik
       initialValues={{
@@ -31,9 +34,18 @@ export const BookForm = ({ closeModal }) => {
       }}
       validationSchema={BookSchema}
       onSubmit={(values, actions) => {
-        dispatch(addContact(values));
-        actions.resetForm();
-        closeModal();
+        if (
+          contacts.find(contact =>
+            contact.name.toLowerCase().includes(values.name.toLowerCase())
+          )
+        ) {
+          window.alert(`${values.name} is already in contacts!`);
+          closeModal();
+        } else {
+          dispatch(addContact(values));
+          actions.resetForm();
+          closeModal();
+        }
       }}
     >
       <Form>
